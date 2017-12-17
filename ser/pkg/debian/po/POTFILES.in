@@ -1,0 +1,4 @@
+[type: gettext/rfc822deb] openimscore-dnsconf.templates
+[type: gettext/rfc822deb] openimscore-pcscf.templates
+[type: gettext/rfc822deb] openimscore-icscf.templates
+[type: gettext/rfc822deb] openimscore-scscf.templates

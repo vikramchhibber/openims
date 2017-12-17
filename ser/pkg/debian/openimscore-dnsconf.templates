@@ -1,0 +1,40 @@
+Template: openimscore-dnsconf/welcome
+Type: text
+_Description: Welcome !
+ Welcome in the configuration script for DNS - OpenIMSCore.
+ .
+ This script will help you to get a working copy of OpenIMSCore
+ You can run this script again by using the following command :
+ .
+ "sudo dpkg-reconfigure openimscore-dnsconf"
+
+Template: openimscore-dnsconf/domain_to_use
+Type: string
+Default: open-ims.test
+_Description: What is the domain name ?
+ OpenIMSCore is using a domain name, please provide it.
+
+Template: openimscore-dnsconf/dns_ip
+Type: string
+_Description: What is the public IP address for this Domain Name Server ?
+ In order to know where the DNS is in the domain name, you must provide an IP address.
+
+Template: openimscore-dnsconf/ip_pcscf
+Type: string
+_Description: What is the IP address for the P-CSCF ?
+ In order to know where the P-CSCF is in the domain name, you must provide an IP address.
+
+Template: openimscore-dnsconf/ip_icscf
+Type: string
+_Description: What is the IP address for the I-CSCF ?
+ In order to know where the I-CSCF is in the domain name, you must provide an IP address.
+
+Template: openimscore-dnsconf/ip_scscf
+Type: string
+_Description: What is the IP address for the S-CSCF ?
+ In order to know where the S-CSCF is in the domain name, you must provide an IP address.
+
+Template: openimscore-dnsconf/ip_hss
+Type: string
+_Description: What is the IP address for the HSS ?
+ In order to know where the HSS is in the domain name, you must provide an IP address.

@@ -1,0 +1,5 @@
+01_patch_icscf.dpatch
+02_patch_pcscf.dpatch
+03_patch_scscf.dpatch
+04_patch_dns.dpatch
+05_patch_Makefile.dpatch

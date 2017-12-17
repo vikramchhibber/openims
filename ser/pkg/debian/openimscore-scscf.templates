@@ -1,0 +1,59 @@
+Template: openimscore-scscf/welcome
+Type: text
+_Description: Welcome !
+ Welcome in the configuration script for S-CSCF - OpenIMSCore.
+ .
+ This script will help you to get a working copy of S-CSCF for OpenIMSCore
+ You can run this script again by using the following command :
+ .
+ "sudo dpkg-reconfigure openimscore-scscf"
+
+Template: openimscore-scscf/domain_to_use
+Type: string
+Default: open-ims.test
+_Description: What is the domain name ?
+ OpenIMSCore is using a domain name, please provide it.
+
+Template: openimscore-scscf/ip_to_use
+Type: string
+_Description: What is the public IP address for this machine ?
+ In order to listen on this domain name, you must provide an IP address to bind.
+
+Template: openimscore-scscf/dns_ip
+Type: string
+_Description: What is the public IP address for your Domain Name Server ?
+ Your domain name server can give you adresses of each CSCF or HSS in the network. You must configure it.
+
+Template: openimscore-scscf/use_md5
+Type: select
+Choices: yes, no
+Default: yes
+_Description: Do you want to use MD5 instead of AKAv1-MD5 ?
+ The default encryption in OpenIMSCore is AKAv1-MD5. ACT phones only support MD5 encryption.
+
+Template: openimscore-scscf/debug_level
+Type: select
+Choices: 0, 1, 2, 3
+Default: 1
+_Description: What debug level do you want ?
+ 0: no debug messages
+ 3: a lot of debug messages
+
+Template: openimscore-scscf/use_syslog
+Type: select
+Choices: yes, no
+Default: no
+_Description: Do you want to use the syslog-ng system ?
+ In order to be advised to the behaviour of OpenIMSCore, two logging system are available.
+ .
+ The first system is dealing with syslog-ng (logging in MySQL database). Log information 
+ would be displayed with php-syslog-ng.
+ .
+ The second system is dealing with logging files in "/var/log/OpenIMSCore/".
+
+Template: openimscore-scscf/scscf_config
+Type: select
+Choices: yes, no
+Default: yes
+_Description: Do you want to start S-CSCF automatically
+ The S-CSCF service can be started automatically with the machine.

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emergency>
+	<sos_number>
+		<number>112</number>
+		<urn>urn:service:sos.ambulance</urn>
+	</sos_number>
+	<sos_number>
+		<number>911</number>
+		<urn>urn:service:sos.police</urn>
+	</sos_number>
+</emergency>

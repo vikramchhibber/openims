@@ -1,0 +1,53 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 05_patch_Makefile.dpatch by  <orange@ubuntuims1>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Patch pour Makefile : utilisation de debuild plutôt qu'un appel des 
+## DP: scripts manuelement
+
+@DPATCH@
+
+diff -Nru tmp.orig/Makefile tmp/Makefile
+--- tmp.orig/Makefile	2009-06-18 10:21:21.000000000 +0200
++++ tmp/Makefile	2009-06-18 10:23:43.000000000 +0200
+@@ -374,14 +374,10 @@
+ .PHONY: deb
+ deb:
+ 	-@if [ -d debian ]; then \
+-		make -f debian/rules install; \
+-		make -f debian/rules binary-common; \
+-		make -f debian/rules clean; \
++		debuild
+ 	else \
+ 		ln -s pkg/debian debian; \
+-		make -f debian/rules install; \
+-		make -f debian/rules binary-common; \
+-		make -f debian/rules clean; \
++		debuild
+ 		rm debian; \
+ 	fi
+ 
+@@ -464,7 +460,6 @@
+ 		@echo "installing configuration of pcscf" ; \
+ 		sed -s -e "s#/opt/OpenIMSCore/ser_ims/modules/.*/#$(modules-target)#g" \
+ 			-e "s#/opt/OpenIMSCore/pcscf.xml#/$(cfg-dir)pcscf.xml#" \
+-			-e "s#log_stderror=yes#log_stderror=no#" \
+ 			-e "s#debug=3#debug=1#" \
+ 			-e "s#/opt/OpenIMSCore#/var/lib/cscf#" \
+ 			< cfg/pcscf.cfg > $(cfg-prefix)/$(cfg-dir)pcscf.cfg.sample ; \
+@@ -498,7 +493,6 @@
+ 		for mod in icscf icscf.thig ; do \
+ 		  sed -s -e "s#/opt/OpenIMSCore/ser_ims/modules/.*/#$(modules-target)#g" \
+ 		  	-e "s#/opt/OpenIMSCore/$$mod.xml#/$(cfg-dir)$$mod.xml#" \
+-			 	-e "s#log_stderror=yes#log_stderror=no#" \
+ 				-e "s#debug=3#debug=1#" \
+ 				-e "s#/opt/OpenIMSCore#/var/lib/cscf#" \
+ 				< cfg/$$mod.cfg > $(cfg-prefix)/$(cfg-dir)$$mod.cfg.sample ; \
+@@ -521,7 +515,6 @@
+ 		@echo "installing configuration of scscf" ; \
+ 		sed -s -e "s#/opt/OpenIMSCore/ser_ims/modules/.*/#$(modules-target)#g" \
+ 			-e "s#/opt/OpenIMSCore/scscf.xml#/$(cfg-dir)scscf.xml#" \
+-			-e "s#log_stderror=yes#log_stderror=no#" \
+ 			-e "s#debug=3#debug=1#" \
+ 			-e "s#/opt/OpenIMSCore#/var/lib/cscf#" \
+ 			< cfg/scscf.cfg > $(cfg-prefix)/$(cfg-dir)scscf.cfg.sample ; \

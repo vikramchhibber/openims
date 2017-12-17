@@ -1,0 +1,41 @@
+This package was debianized by Arnaud Morin <arnaud.morin@gmail.com> on
+Thu, 09 Apr 2009 11:17:35 +0200.
+
+It was downloaded from https://launchpad.net/~arnaud-morin/+archive/ppa
+
+Upstream Author(s): 
+
+    Andrei Pelinescu-Onciul <pelinescu-onciul@fokus.fraunhofer.de>
+    Bogdan Iancu <iancu@fokus.fraunhofer.de>
+    Daniel-Constantin Mierla
+    Jan Janak <jan@iptel.org>
+    Jiri Kuthan <jiri@iptel.org>
+    Juha Heinanen
+    Maxim Sobolev
+    Miklos Tirpak
+    Nils Ohlmeier
+    Ramona-Elena Modroiu
+    Raphael Coeffic
+    Ricardo Baratto
+    Stelios Sidiroglou-Douskos
+    (see AUTHORS file for details)
+
+Copyright: 
+
+    This software is copyright (c) 2002-2003 by FhG Fokus
+
+License:
+
+    The package is under GPL licence.
+
+The Debian packaging is (C) 2009, Arnaud Morin <arnaud.morin@gmail.com> and
+is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
+
+For any additional information, send an inquiry to info@iptel.org. 
+Licensing conditions other than GPL are available on request. 
+
+Most up-to-date information is always available at our website,
+                 http://www.iptel.org/ser/
+
+(see COPYING file for details)
+

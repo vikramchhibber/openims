@@ -1,0 +1,12 @@
+#!/bin/sh -e
+# postrm script for OpenIMSCore
+#
+
+#DEBHELPER#
+#Mise en place ancien dns
+if [ -f /etc/bind/named.conf.imsback ]
+	then
+	cp /etc/bind/named.conf.imsback /etc/bind/named.conf
+	fi
+
+sudo /etc/init.d/bind9 restart

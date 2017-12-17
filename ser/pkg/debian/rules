@@ -1,0 +1,165 @@
+#!/usr/bin/make -f
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+#
+# $Id: rules 576 2008-07-28 15:40:19Z vingarzan $
+#
+# History:
+# --------
+#  2003-05-30  updated for the 0.8.11 release, changed modules list and
+#              some ser make options (andrei)
+#  2003-06-27  changed to DH_COMPAT 4 (debian/compat) + other filenames
+#              & small fixes (andrei)
+#  2003-08-29  replaced modules-install with modules-install-all, to 
+#               install also the modules doc (andrei)
+#  2004-07-23  added ext and commented out the radius modules
+#              (the current radius modules depend on radiusclient-ng which
+#               is not yet part of debian)  (andrei)
+#  2005-06-23  added cpl-c, pa & re-enabled radius (with libradiusclient-ng)
+#                (andrei)
+#  2008-04-09  Added CSCF modules of open ims core (sebastian)
+#
+#  2009-04-09  OpenIMSCore Deb package new release for svn revision 636 (arnaud)
+#
+
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# Excluded modules from first package (openimscore)
+EXCLUDED_MODULES=	pcscf \
+			icscf \
+			scscf
+
+# Packages list
+PACKAGES= 		openimscore \
+			openimscore-pcscf \
+			openimscore-icscf \
+			openimscore-scscf \
+			openimscore-dnsconf
+
+include /usr/share/dpatch/dpatch.make
+#LD_LIBRARY_PATH=usr/lib/openimscore
+
+configure: configure-stamp
+configure-stamp: patch
+	dh_testdir
+	# Add here commands to configure the package.
+
+	touch configure-stamp
+
+
+build: build-stamp
+
+build-stamp: configure-stamp 
+	dh_testdir
+
+	# Add here commands to compile the package.
+	$(MAKE)
+	#docbook-to-man debian/openimscore.sgml > openimscore.1
+
+	touch $@
+
+clean: unpatch
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+	debconf-updatepo
+
+	# Add here commands to clean up after the build process.
+	#-$(MAKE) clean
+	$(MAKE) clean
+
+	dh_clean 
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k 
+	dh_installdirs
+	
+	#export LIBS
+	#export TAR 
+	#export NAME RELEASE OS ARCH 
+	#export cfg-prefix cfg-dir bin-prefix bin-dir modules-prefix modules-dir
+	#export doc-prefix doc-dir man-prefix man-dir ut-prefix ut-dir
+	#export cfg-target modules-target
+	#export INSTALL INSTALL-CFG INSTALL-BIN INSTALL-MODULES INSTALL-DOC INSTALL-MAN 
+	#export INSTALL-TOUCH
+
+	# Add here commands to install the package into debian/openimscore.
+	###$(MAKE) DESTDIR=$(CURDIR)/debian/openimscore install
+	$(MAKE) install skip_modules="$(EXCLUDED_MODULES)" \
+		basedir=$(CURDIR)/debian/openimscore \
+		prefix=/usr \
+		cfg-prefix=$(CURDIR)/debian/openimscore \
+		cfg-target=etc/openimscore/ \
+		cfg-dir=etc/openimscore/
+	#install only the P-CSCF module
+	$(MAKE) install-modules-all install-cfg-pcscf modules="modules/pcscf"  \
+		basedir=$(CURDIR)/debian/openimscore-pcscf \
+		prefix=/usr \
+		cfg-prefix=$(CURDIR)/debian/openimscore-pcscf \
+		cfg-target=/etc/openimscore/ \
+		cfg-dir=/etc/openimscore/ \
+		doc-dir=share/doc/openimscore-pcscf
+	#install only the I-CSCF module
+	$(MAKE) install-modules-all install-cfg-icscf modules="modules/icscf"  \
+		basedir=$(CURDIR)/debian/openimscore-icscf \
+		prefix=/usr \
+		cfg-prefix=$(CURDIR)/debian/openimscore-icscf \
+		cfg-target=/etc/openimscore/ \
+		cfg-dir=/etc/openimscore/ \
+		doc-dir=share/doc/openimscore-icscf
+	#install only the S-CSCF module
+	$(MAKE) install-modules-all install-cfg-scscf modules="modules/scscf"  \
+		basedir=$(CURDIR)/debian/openimscore-scscf \
+		prefix=/usr \
+		cfg-prefix=$(CURDIR)/debian/openimscore-scscf \
+		cfg-target=/etc/openimscore/ \
+		cfg-dir=/etc/openimscore/ \
+		doc-dir=share/doc/openimscore-scscf
+
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir -a				#Check install dir (debian/control file exist?)
+	dh_testroot -a				#Check if user is root
+	dh_installchangelogs -a			#Install changlog files
+#	dh_installdocs -a			#Install documentation files
+#	dh_installexamples -a			#Install exemples files
+	dh_install -a				#Install files enumerated in module.install
+#	dh_installmenu -a			#Install menu files
+	dh_installdebconf -a			#Install debconf files (file.templates and file.config) into debian directory
+#	dh_installlogrotate -a			#Install logrotate files
+#	dh_installemacsen -a			#Install emacsen files
+#	dh_installpam -a			#Install pam files
+#	dh_installmime -a			#Install mime files
+#	dh_python -a
+	dh_installinit -a			#Install init files into /etc/init.d/ and add update-rc.d to postinst, prerm and postrm
+#	dh_installcron -a			#Install the cron job
+#	dh_installinfo -a			#Install info pages
+#	dh_installman -a			#Install man pages
+	dh_link -a				#Install symbolick links
+	dh_strip -a				#...strip binaries
+	dh_compress -a				#Compress files (changelog, info, etc.)
+	dh_fixperms -a				#Change permissions on files acording to the Debian Policy
+#	dh_perl -a				#Check perl dependencies
+#	dh_makeshlibs -a			#Create shlibs file
+	dh_installdeb -a			#Install postrm, etc. files into debian directory
+	dh_shlibdeps -a				#Calculate shared library dependencies
+	dh_gencontrol -a			#Check control file and substitute vars
+	dh_md5sums -a				#Create md5sums file into debian/
+	dh_builddeb -a				#Create deb package into .. (parent directory) !
+#	dh_builddeb -popenimscore		#Create deb package into .. (parent directory) !
+#	dh_builddeb -popenimscore-pcscf		#Create deb package into .. (parent directory) !
+#	dh_builddeb -popenimscore-icscf		#Create deb package into .. (parent directory) !
+#	dh_builddeb -popenimscore-scscf		#Create deb package into .. (parent directory) !
+#	dh_builddeb -popenimscore-dnsconf	#Create deb package into .. (parent directory) !
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure

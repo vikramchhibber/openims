@@ -1,0 +1,168 @@
+==========================================================
+How to install OpenIMSCore with Emergency Services support
+==========================================================
+
+Description:
+------------
+There are two new entities, besides the normal IMS Core: the E-CSCF (Emergency CSCF) and the LRF (Location Retrieval Function).
+The LRF node will need an external LoST server (RFC 5222).
+
+Instalation:
+------------
+In order to install the CSCFs and the HSS follow the same steps as in the instalation 
+guide from http://www.openimscore.org/installation_guide, with the single modification:
+in the step 2 (Get the Source Code) instead of
+"svn checkout http://svn.berlios.de/svnroot/repos/openimscore/ser_ims/trunk ser_ims"
+use
+"svn checkout http://svn.berlios.de/svnroot/repos/openimscore/ser_ims/branches/12_em_services ser_ims"
+
+Download the LoST server and prerequisits:
+------------------------------------------
+If no LoST server is installed, the default PSAP URI configured in the LRF will be used:
+lrf.cfg: modparam("lrf","default_psap","default_psap_SIP_URI"), the default_psap_SIP_URI can be for example sip:psap@open-ims.test after creating the new user for the psap (see the section "Using sipp" c2) subsection ).
+
+If you want to use a LoST server read the follwing informations.
+
+a)Download and install tomcat as on the site: http://tldp.org/HOWTO/MMBase-Inst-HOWTO/x321.html. If you install it from a root user, for example using apt-get install on Ubuntu, you will get errors when a client will send requests, because the LoST server application might not have write access to create a new TCP connection. So just to be on the safe side, install it as a normal user on your maschine.
+
+b)Download the LoST server (implemented as a tomcat application) and database from the download page of the site: http://honamsun.cs.columbia.edu/lost_homepage/.
+
+Configuring the LoST server
+-----------------------------
+You must configure it before installing, so that the application is copied in the right tomcat folder and running on the wanted path and port.
+The LoST server must not interfere with the HSS server, running by default on the localhost on the port 8080. 
+
+a)The port can be configured from the tomcat in the file tomcat/conf/server.xml: Connector port. 
+For example: <Connector port="8180" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443"/>
+
+b)The tomcat folder must be set in the lost-server-1.0.0/build.xml. 
+For example: <property name="catalina.home" value="/usr/local/tomcat"/> 
+
+c)To configure the path the LoST servlet will use you must modify the file lost-server-1.0.0/web/WEB-INF/web.xml.
+By default the path is "LoSTServlet".
+
+Do not forget to copy the jars postgresql-jdbc4.jar and servlet-api.jar in a lib directory from the tomcat folder. (see lost-server-1.0.0/README)
+
+Configure the LRF to refer the LoST server
+------------------------------------------
+The default url of the LoST server in the LRF is "http://lost.open-ims.test:8180/lost/LoSTServlet".
+In the default configuration of the IMS Core, lost.open-ims.test is resolved as localhost. 
+(see http://svn.berlios.de/viewcvs/openimscore/ser_ims/branches/12_em_services/cfg/open-ims.dnszone)
+If you want to use a different url for the LoST server you must configure: it, tomcat and the LRF according.
+To configure the LRF you must set it in the lrf.cfg, for example:
+modparam("lrf","lost_server","http://lost.open-ims.test:8180/lost/LoSTServlet")
+
+!!! If you are using a different LoST server please make sure that is not running on the same IP and port as the HSS 
+and modify the lrf.cfg to set the LoST server url accordingly.
+
+Installing the database:
+------------------------
+For how to create the database see lost-db-1.0.0/README. 
+The database will contain mapping information for the location from the generated emergency INVITE.
+
+Unfortunately the SIP URI that will be mapped to the location informations are from the domain irt.cs.columbia.edu. For example psap_nj@irt.cs.columbia.edu.
+This are bogus users. You can modify the scripts containing the data to use users from the open-ims.test domain, using the sed tool (see http://www.grymoire.com/Unix/Sed.html#uh-1).
+You must modify civic_us.sql and geo_us.sql
+sed s/"irt.cs.columbia.edu"/"open-ims.test"/ civic_us.sql > new_civic_us.sql
+sed s/"irt.cs.columbia.edu"/"open-ims.test"/ geo_us.sql > new_geo_us.sql
+
+Now you must use these files to create the databases.
+
+$mv new_civic_us.sql civic_us.sql
+$mv new_geo_us.sql geo_us.sql
+
+Verify that the user and name of the database from the create_db.sh, create_as.sh and create_resoler.sh are the same you are using in the LoST server, or that the user from the LoST server has been granted SELECT access to the database.
+You can now run the scripts: create_db.sh, create_as.sh and create_resoler.sh to create the Postgres database for the LoST server.
+
+Configure the LoST server for the Postgres database link
+--------------------------------------------------------
+Read lost-server-1.0.0/README.
+To adjust the type of connection (pooling or not) you have to modify the lost.properties file, that can be found in lost-1.0.0/src/, 
+the lost-server README is errornous on the filepath of lost.properties. 
+
+Starting the components
+-----------------------
+For starting the components, follow the same guide, step 6, but start also the LoST server (tomcat and postgres daemons), ecscf.sh and lrf.sh.
+
+-------------------------------------
+How to create and end an emergency call
+--------------------------------------
+
+Using sipp
+******************
+a) 	download the newest sipp stable version (http://sipp.sourceforge.net)
+	compile it with MD5 authentication support as in the guide: http://sipp.sourceforge.net/doc/reference.html#SIP+authentication
+	install sipp (http://sipp.sourceforge.net/doc3.0/reference.html)
+
+b) Modify the scripts for the S-SCSCF (file cfg/scscf.cfg)
+set the default authentication algorithm to MD5
+-> modparam("scscf","registration_default_algorithm","MD5")
+set the qop parameter to ""
+->modparam("scscf","registration_qop","")
+
+c) Run the sipp scenarios
+	$cd ser_ims/test/emerg_serv/
+
+c1) If a LoST server is properly configured and running (including the modification of the LoST database to refer to the open-ims.test domain), 
+
+	sip:alice@open-ims.test as the Emergency Services client's SIP URI and sip:psap_nj@open-ims.test as the PSAP's SIP URI:
+	-----------------------------------------------------------------------------------------------------------------------
+	* create the user with the URI sip:psap_nj@open-ims.test
+		$cd ser_ims/cfg
+		$./add-imscore-user_newdb.sh -u psap_nj -t tel:112 -a
+	* make sure that the "using_lost_srv" parameter in the lrf.cfg is set to "1"
+		modparam("lrf","using_lost_srv","1")
+	* set the url of the LoST server in the lrf.cfg
+	* start all the components (P/I/S/E-CSCF, HSS, LoST server, LRF) in parallel
+	* PSAP registeres as normal IMS registration
+	$sipp -sf non_em_psap_nj.xml 127.0.0.1:4060 -i 127.0.0.1 -p 3062 -m 1
+
+	* Alice registeres as emergency IMS registration
+	$sipp -sf em_reg_alice.xml 127.0.0.1:4060 -i 127.0.0.1 -p 3061 -m 1
+
+	* PSAP waits for the call (UAS)
+	$sipp -sf uas_a2psap_nj.xml 127.0.0.1:4060 -i 127.0.0.1 -p 3062 -m 1
+
+	* Alice creates and ends an emergency call (UAC)
+	$sipp -sf em_uac_a2b.xml 127.0.0.1:4060 -i 127.0.0.1 -p 3061 -m 1
+
+c2) If no LoST server: using a default PSAP URI, no new user in the HSS databases needed
+
+	c2.1) Alice acting as the Emergency Services client and Bob as the PSAP:
+	------------------------------------------------------------------------
+	* set "using_lost_srv" parameter  in the lrf.cfg to "0", default value is "1" 
+		modparam("lrf","using_lost_srv","0")
+	* set the default psap_uri in the ecscf.cfg as 
+		modparam("lrf","default_psap","sip:bob@open-ims.test")
+	* start the components : P/I/S/E-CSCF, HSS, LRF in parallel
+	* Bob registeres as normal IMS registration
+	$sipp -sf non_em_reg_bob.xml 127.0.0.1:4060 -i 127.0.0.1 -p 3062 -m 1
+
+	* Alice registeres as emergency IMS registration
+	$sipp -sf em_reg_alice.xml 127.0.0.1:4060 -i 127.0.0.1 -p 3061 -m 1
+
+	* Bob waits for the call (UAS)
+	$sipp -sf uas_a2b.xml 127.0.0.1:4060 -i 127.0.0.1 -p 3062 -m 1
+
+	* Alice creates and ends an emergency call (UAC)
+	$sipp -sf em_uac_a2b.xml 127.0.0.1:4060 -i 127.0.0.1 -p 3061 -m 1
+
+
+	c2.2) Bob acting as the Emergency Services client and Alice as the PSAP:
+	------------------------------------------------------------------------
+	* set "using_lost_srv" parameter  in the lrf.cfg to "0", default value is "1" 
+		modparam("lrf","using_lost_srv","0")
+	* set the default psap_uri in the lrf.cfg as sip:alice@open-ims.test
+		modparam("lrf","default_psap","sip:alice@open-ims.test")
+	* start the components : P/I/S/E-CSCF, HSS, LRF in parallel
+	* Alice registeres as normal IMS registration
+	$sipp -sf em_reg_bob.xml 127.0.0.1:4060 -i 127.0.0.1 -p 3062 -m 1
+
+	* Bob registeres as emergency IMS registration
+	$sipp -sf non_em_reg_alice.xml 127.0.0.1:4060 -i 127.0.0.1 -p 3061 -m 1
+
+	* Alice waits for the call (UAS)
+	$sipp -sf uas_b2a.xml 127.0.0.1:4060 -i 127.0.0.1 -p 3061 -m 1
+
+	* Bob creates and ends an emergency call (UAC)
+	$sipp -sf em_uac_b2a.xml 127.0.0.1:4060 -i 127.0.0.1 -p 3062 -m 1

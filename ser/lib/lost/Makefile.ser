@@ -1,0 +1,9 @@
+LIBNAME  = lost
+OUT_NAME = lib_lost_client.so
+OUT_TYPE = lib
+
+INCLUDES += -I/usr/include/libxml2
+LIBS     += -lxml2 -l_ser_cds -lcurl 
+
+include ../Makefile.ser.defs
+

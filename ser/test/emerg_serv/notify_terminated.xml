@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE scenario SYSTEM "sipp.dtd">
+
+<scenario name="LOCSIP server side, when the server does not have enough data">
+
+<recv request="SUBSCRIBE">
+</recv>
+
+<send crlf="true">
+<![CDATA[
+SIP/2.0 200 OK - Subscription processed
+[last_Via:]
+[last_Record-Route:]
+[last_From:]
+[last_Call-ID:]
+[last_To:];tag=[call_number]
+[last_CSeq:]
+Contact:<sip:locsip@locsip.open-ims.test>
+Expires: 0
+Allow: SUBSCRIBE
+Content-Length: [len]
+
+]]>
+</send>
+
+<pause milliseconds="3000" crlf="true" />
+
+<send retrans="500">
+<![CDATA[
+NOTIFY sip:lrf.open-ims.test:8060 SIP/2.0
+Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
+Max-Forwards: 20
+[last_Call-ID]
+From: <sip:[field0]@[field1]>;tag=[call_number]
+To: <sip:lrf.open-ims.test:8060>
+Event: location
+CSeq:41 NOTIFY
+Subscription-State:terminated; reason=noresource
+Contact:<sip:locsip@locsip.open-ims.test>
+Content-Length: 0
+
+]]>
+</send>
+
+<recv response="200" rrs="true">
+</recv>
+
+</scenario>
+

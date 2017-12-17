@@ -1,0 +1,48 @@
+#!/bin/sh -e
+# postrm script for OpenIMSCore - ICSCF
+#
+
+##########################################
+# Removing MySQL database
+##########################################
+if [ "$1" = purge ] && [ -e /usr/share/debconf/confmodule ]; then
+	# Source debconf library.
+	. /usr/share/debconf/confmodule
+	# Get variable
+	db_get openimscore-icscf/sql_password
+	if [ "$RET" != "" ]
+	then
+		SQL_PASSWORD="-p$RET"
+	else
+		SQL_PASSWORD=""
+	fi
+	printf " -->Dropping MySQL I-CSCF database : "
+	mysqladmin -f -uroot $SQL_PASSWORD drop icscf
+fi
+
+##########################################
+# Restauring resolv.conf
+##########################################
+# Is resolv.conf edited by IMS ?
+if [ -f /etc/resolv.conf.imsback ]; then
+	printf " -->Reverting the .imsback file\n"
+	mv /etc/resolv.conf.imsback /etc/resolv.conf
+	rm -rf /etc/resolv.conf.imsback
+fi
+
+##########################################
+# Deleting icscf.cfg.default and 
+#          icscf.xml.default
+##########################################
+if [ "$1" = purge ]; then
+	# File exist ?
+	if [ -f /etc/openimscore/icscf.cfg.default ]; then
+		rm -rf /etc/openimscore/icscf.cfg.default
+	fi
+	if [ -f /etc/openimscore/icscf.xml.default ]; then
+		rm -rf /etc/openimscore/icscf.xml.default
+	fi
+fi
+
+#DEBHELPER#
+

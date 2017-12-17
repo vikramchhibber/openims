@@ -1,0 +1,8 @@
+#!/bin/sh -e
+# prerm script for OpenIMSCore
+#
+
+
+#Arret des démons
+
+#DEBHELPER#

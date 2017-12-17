@@ -1,0 +1,3 @@
+./cfg/open-ims.dnszone etc/bind/
+./cfg/open-ims.dnszone.inv etc/bind/
+

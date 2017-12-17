@@ -1,0 +1,134 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 04_patch_dns.dpatch.dpatch by Arnaud Morin <arnaud1.morin@orange-ftgroup.com>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Patch fichier configuration DNS
+
+@DPATCH@
+
+diff -Nru tmp.orig/cfg/open-ims.dnszone tmp/cfg/open-ims.dnszone
+--- tmp.orig/cfg/open-ims.dnszone	2009-06-22 15:26:51.000000000 +0200
++++ tmp/cfg/open-ims.dnszone	2009-06-30 09:53:35.000000000 +0200
+@@ -1,57 +1,47 @@
+ $ORIGIN open-ims.test.
+ $TTL 1W
+-@                       1D IN SOA       localhost. root.localhost. (
+-                                        2006101001      ; serial
+-                                        3H              ; refresh
+-                                        15M             ; retry
+-                                        1W              ; expiry
+-                                        1D )            ; minimum
+-
+-                        1D IN NS        ns
+-ns                      1D IN A         127.0.0.1
+-
+-pcscf                   1D IN A         127.0.0.1
+-_sip.pcscf              1D SRV 0 0 4060 pcscf
+-_sip._udp.pcscf         1D SRV 0 0 4060 pcscf
+-_sip._tcp.pcscf         1D SRV 0 0 4060 pcscf
+-
+-
+-icscf                   1D IN A         127.0.0.1
+-_sip                    1D SRV 0 0 5060 icscf
+-_sip._udp               1D SRV 0 0 5060 icscf
+-_sip._tcp               1D SRV 0 0 5060 icscf
+-
+-open-ims.test.          1D IN A         127.0.0.1
+-open-ims.test.          1D IN NAPTR 10 50 "s" "SIP+D2U"	""	_sip._udp
+-open-ims.test.          1D IN NAPTR 20 50 "s" "SIP+D2T"	""	_sip._tcp
+-
+-
+-scscf                   1D IN A         127.0.0.1
+-_sip.scscf              1D SRV 0 0 6060 scscf
+-_sip._udp.scscf         1D SRV 0 0 6060 scscf
+-_sip._tcp.scscf         1D SRV 0 0 6060 scscf
+-
+-
+-trcf                    1D IN A         127.0.0.1
+-_sip.trcf               1D SRV 0 0 3060 trcf
+-_sip._udp.trcf          1D SRV 0 0 3060 trcf
+-_sip._tcp.trcf          1D SRV 0 0 3060 trcf
+-
+-
+-bgcf                    1D IN A         127.0.0.1
+-_sip.bgcf               1D SRV 0 0 7060 bgcf
+-_sip._udp.bgcf          1D SRV 0 0 7060 bgcf
+-_sip._tcp.bgcf          1D SRV 0 0 7060 bgcf
+-
+-
+-mgcf                    1D IN A         127.0.0.1
+-_sip.mgcf               1D SRV 0 0 8060 mgcf
+-_sip._udp.mgcf          1D SRV 0 0 8060 mgcf
+-_sip._tcp.mgcf          1D SRV 0 0 8060 mgcf
+-
+-
+-hss                     1D IN A         127.0.0.1
+-
+-ue                      1D IN A         127.0.0.1
+-
+-presence                1D IN A         127.0.0.1
++@			1D IN SOA			localhost. root.localhost. (
++								2006101001      ; serial
++								3H              ; refresh
++								15M             ; retry
++								1W              ; expiry
++								1D )            ; minimum
++
++
++;---------------------------------------;
++;              NS  RECORDS              ;
++;---------------------------------------;
++			1D IN NS				ns
++			
++;---------------------------------------;
++;              A   RECORDS              ;
++;---------------------------------------;
++ns			1D IN A					__DNSADDR__
++pcscf			1D IN A					__PCSCFADDR__
++icscf			1D IN A					__ICSCFADDR__
++scscf			1D IN A					__SCSCFADDR__
++hss			1D IN A					__HSSADDR__
++open-ims.test.		1D IN A					__ICSCFADDR__
++
++
++;---------------------------------------;
++;             SRV  RECORDS              ;
++;---------------------------------------;
++_sip.pcscf		1D SRV 0 0 4060				pcscf
++_sip._udp.pcscf		1D SRV 0 0 4060				pcscf
++_sip._tcp.pcscf		1D SRV 0 0 4060				pcscf
++
++_sip			1D SRV 0 0 5060                         icscf
++_sip._udp		1D SRV 0 0 5060                         icscf
++_sip._tcp		1D SRV 0 0 5060                         icscf
++
++_sip.scscf		1D SRV 0 0 6060				scscf
++_sip._udp.scscf		1D SRV 0 0 6060				scscf
++_sip._tcp.scscf		1D SRV 0 0 6060				scscf
++
++
++;---------------------------------------;
++;            NAPTR RECORDS              ;
++;---------------------------------------;
++open-ims.test.		1D IN NAPTR 10 50 "s" "SIP+D2U" ""	_sip._udp
++open-ims.test.		1D IN NAPTR 20 50 "s" "SIP+D2T" ""	_sip._tcp
+diff -Nru tmp.orig/cfg/open-ims.dnszone.inv tmp/cfg/open-ims.dnszone.inv
+--- tmp.orig/cfg/open-ims.dnszone.inv	1970-01-01 01:00:00.000000000 +0100
++++ tmp/cfg/open-ims.dnszone.inv	2009-06-22 15:31:07.000000000 +0200
+@@ -0,0 +1,16 @@
++$TTL 1W
++; @ décrit la zone spécifiéé par le fichier named.conf (open-ims.test dans ce cas)
++@                       IN SOA       	localhost. root.localhost. (
++						                2006101001      ; serial
++						                3H              ; refresh
++						                15M             ; retry
++						                1W              ; expiry
++						                1D )            ; minimum
++
++@			IN NS        				ns
++ns                      IN A         				127.0.0.1
++
++__SCSCFADDR_SHORT__			IN PTR					scscf.open-ims.test.
++__PCSCFADDR_SHORT__			IN PTR					pcscf.open-ims.test.
++__ICSCFADDR_SHORT__			IN PTR					icscf.open-ims.test.
++__HSSADDR_SHORT__			IN PTR					hss.open-ims.test.

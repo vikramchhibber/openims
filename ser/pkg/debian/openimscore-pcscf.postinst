@@ -1,0 +1,160 @@
+#!/bin/sh -e
+# postinst script for OpenIMSCore - PCSCF
+#
+
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+#################################################################################
+#INITIALISATION & GLOBAL VARS
+#################################################################################
+#DDOMAIN : Default domain name
+DDOMAIN="open-ims\.test"
+#DSDOMAIN : Default domain name with slashes
+DSDOMAIN="open-ims\\\.test"
+#DEFAULTIP : Default IP Address
+DEFAULTIP="127\.0\.0\.1"
+
+#SER_CONFFILES : Openimscore configuration files to edit
+cd /etc/openimscore/
+SER_CONFFILES="pcscf.cfg pcscf.xml"
+
+#Copying default cfg files 
+#Default :
+# Enforce service route disabled
+# Ping enabled
+# log_stderror=no
+# debug=1
+[ -f pcscf.cfg.default ] && cp pcscf.cfg.default pcscf.cfg || cp pcscf.cfg pcscf.cfg.default
+[ -f pcscf.xml.default ] && cp pcscf.xml.default pcscf.xml || cp pcscf.xml pcscf.xml.default
+
+#################################################################################
+#LOG FILE & DIRECTORY
+#################################################################################
+printf "\n\nCopying log file\n..."
+
+#Log Directory
+mkdir -p /var/log/OpenIMSCore
+#Give all permissions to Log Files & Directory
+chmod 777 /var/log/OpenIMSCore -R
+printf "... [Done]\n"
+
+#################################################################################
+#CONFIGURATION OF DOMAIN
+#################################################################################
+printf "\n\nConfiguration of Domain\n"
+
+#Domain name
+printf "Domain Name to use: "
+#Get variable
+db_get openimscore-pcscf/domain_to_use
+domainname=$RET
+printf "$domainname\n"
+
+#IP Address
+printf "IP Adress to use: "
+#Get variable
+db_get openimscore-pcscf/ip_to_use
+ip_address=$RET
+printf "$ip_address\n"
+
+# input domain is to be slashed for cfg regexes 
+slasheddomain=`echo $domainname | sed 's/\./\\\\\\\\\./g'`
+
+printf "Apply this Domain and IP to all configuration files ...\n"
+printf "Openimscore Configuration files\n"
+for i in $SER_CONFFILES 
+do
+	sed -i -e "s/$DDOMAIN/$domainname/g" $i
+	sed -i -e "s/$DSDOMAIN/$slasheddomain/g" $i
+	sed -i -e "s/$DEFAULTIP/$ip_address/g" $i
+	printf " --> $i done\n" 
+done
+
+#################################################################################
+#CONFIGURATION OF DNS
+#################################################################################
+printf "\n\nConfiguration of Domain Name Server\n"
+#Get variable
+db_get openimscore-pcscf/dns_ip
+dns_ip=$RET
+#Is it the first time we edit resolv.conf ?
+printf "Is it the first time we edit resolv.conf ? "
+if [ -f /etc/resolv.conf.imsback ]; then
+	printf "No\n"
+	printf "Reverting the .imsback file\n"
+	mv /etc/resolv.conf.imsback /etc/resolv.conf
+else
+	printf "Yes\n"
+fi
+#Adding dns resolution in /etc/resolv.conf
+[ -f /etc/resolv.conf ] || touch /etc/resolv.conf
+cp /etc/resolv.conf /etc/resolv.conf.imsback
+printf "\nAdding to /etc/resolv.conf \n"
+echo "######################" |  tee -a /etc/resolv.conf
+echo "#Added for OpenIMSCore" |  tee -a /etc/resolv.conf
+echo "domain $domainname" |  tee -a /etc/resolv.conf
+echo "nameserver $dns_ip" |  tee -a /etc/resolv.conf
+echo "######################" |  tee -a /etc/resolv.conf
+
+#################################################################################
+#SPECIFIC CONFIGURATION
+#################################################################################
+printf "\n\nSpecific configuration\n"
+
+#printf " --> Enforce service routes ? "
+##Get variable
+#db_get openimscore-pcscf/enforce_service_routes
+#printf "$RET\n"
+#if [ "$RET" = "yes" ]
+#then
+#	# -i pour appliquer les effets sur le fichier au lieu de les afficher sur l'entrée standard
+#	# -e pour indiquer qu'on execute un script entre les ""
+#	# -r pour indiquer qu'on applique une REGEXP entre les ""
+#	sed -i -r '/sl_send_reply\("400","Bad Request - Not following indicated service/I,/break;/s/([a-z])/#\1/' pcscf.cfg
+#	sed -i -r '/sl_send_reply\("400","Bad Request - Not following indicated service/I,/P_enforce_service_routes/s/#P/P/' pcscf.cfg
+#fi
+#
+#printf " --> Disable ping ? "
+##Get variable
+#db_get openimscore-pcscf/disable_ping
+#printf "$RET\n"
+#if [ "$RET" = "yes" ]
+#then
+#	sed -i -e 's;modparam("pcscf","ping", 1);modparam("pcscf","ping", 0);' pcscf.cfg
+#fi
+#
+#printf " --> Use the syslog-ng system ? "
+##Get variable
+#db_get openimscore-pcscf/use_syslog
+#printf "$RET\n"
+#if [ "$RET" = "no" ]
+#then
+#	sed -i -e "s;log_stderror=no;log_stderror=yes;" pcscf.cfg
+#fi
+
+printf " --> Debug Level ? "
+#Get variable
+db_get openimscore-pcscf/debug_level
+printf "$RET\n"
+sed -i -e "s;debug=3;debug=$RET;" pcscf.cfg
+
+#################################################################################
+#RUNNING SERVICES
+#################################################################################
+printf "\n\nRunning services\n"
+
+#p-cscf
+printf "Run p-cscf at start ? ... "
+#Get variable
+db_get openimscore-pcscf/pcscf_config
+printf "$RET ...\n"
+if echo "$RET" | grep -q "yes"
+then
+	#DEBHELPER#
+fi
+
+
+
+printf "\nEnd of configuration script\n"
+db_stop

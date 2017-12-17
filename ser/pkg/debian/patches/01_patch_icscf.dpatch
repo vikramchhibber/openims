@@ -1,0 +1,31 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 01_patch_icscf.dpatch by  <orange@ubuntuims1>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: Patch for cfg/icscf.sh file
+
+@DPATCH@
+
+diff -Nru tmp.orig/cfg/icscf.sh tmp/cfg/icscf.sh
+--- tmp.orig/cfg/icscf.sh	2009-04-10 11:58:20.000000000 +0200
++++ tmp/cfg/icscf.sh	2009-04-10 14:24:15.000000000 +0200
+@@ -1,6 +1,17 @@
+ #!/bin/bash
+ 
+-./ser_ims/cfg/killser icscf
+-/opt/OpenIMSCore/ser_ims/ser -f /opt/OpenIMSCore/icscf.cfg -D -D
++#Variables
++NAME=icscf
++CONFFILE=/etc/openimscore/$NAME.cfg
++LIBPATH=/usr/lib/ser
++KILLSER=/usr/sbin/killser
++SER=/usr/sbin/ser
+ 
++#Verifying files
++[ -x $KILLSER ] && killser $NAME || exit 1
++[ -x $SER ] || exit 1
++[ -f $CONFFILE ] || exit 1
++
++LD_LIBRARY_PATH="$LIBPATH" $SER -f $CONFFILE -D -D -D
+ ipcs -s
++exit 0

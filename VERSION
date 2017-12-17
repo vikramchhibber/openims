@@ -1,0 +1,13 @@
+OpenIms ser
+----------
+Source:
+svn checkout svn://svn.code.sf.net/p/openimscore/code/ser_ims/trunk
+Revision:
+1195
+
+OpenIms FHoSS (HSS)
+-------------------
+Source:
+svn checkout svn://svn.code.sf.net/p/openimscore/code/FHoSS/trunk
+Revision:
+1195

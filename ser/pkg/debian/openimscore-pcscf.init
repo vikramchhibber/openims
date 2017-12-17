@@ -1,0 +1,176 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          openimscore-pcscf
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Manage OSIMS P-CSCF function
+### END INIT INFO
+# Author:            Arnaud Morin <arnaud1.morin@orange-ftgroup.com>
+
+# DAEMON VALUES
+DESC="OpenSource IMS Core - P-CSCF"
+NAME=pcscf
+
+# PATH should only include /usr/* if it runs after the mountnfs.sh script
+PATH=/usr/sbin:/usr/bin:/sbin:/bin
+DAEMON=/usr/sbin/$NAME.sh
+KILLSER=/usr/sbin/killser
+PIDFILE=/var/run/$NAME.pid
+SCRIPTNAME=/etc/init.d/openimscore-$NAME
+LOGFILE=/var/log/OpenIMSCore/$NAME.log
+
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 0
+
+# Read configuration variable file if it is present
+[ -r /etc/default/$NAME ] && . /etc/default/$NAME
+
+# Load the VERBOSE setting and other rcS variables
+[ -f /etc/default/rcS ] && . /etc/default/rcS
+
+# Define LSB log_* functions.
+# Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
+. /lib/lsb/init-functions
+
+VERBOSE=YES
+
+getCurrentPID()
+{
+        PID=$(ps -ef | egrep ^root\ +[0-9]+\ +1\ +.*openimscore.*$NAME.cfg | grep -v grep | cut -c10-15)
+	echo $PID
+}
+
+#
+# Function that starts the daemon/service
+#
+do_start()
+{
+	# Return
+	#   0 if daemon has been started
+	#   1 if daemon was already running
+	#   2 if daemon could not be started
+
+	PID=$(getCurrentPID)
+	[ "$PID" != "" ] && echo -n "...Already running (pid: $PID)..." && return 1
+
+	#On ajoute la date au fichier log
+	echo "#"  >$LOGFILE
+	echo -n "# Launch pcscf - "  >>$LOGFILE
+	echo `date` >>$LOGFILE
+	echo "#" >>$LOGFILE
+	
+	#On démarre le service
+	#2>>$LOGFILE = redirection de STDERR vers le fichier LOGFILE
+	#1<&2 = redirection de STDOUT vers STDERR
+	#Il faut faire attention à l'ordre de ces deux chaines : la plus à droite est la première éxécutée (FIFO) : 
+	#On redirige d'abord le flux STDOUT vers STDERR
+	#On redirige ensuite STDERR vers LOGFILE
+	#Enfin on lance le démon
+	$DAEMON 2>>$LOGFILE 1>&2
+
+	sleep 3
+	PID=$(getCurrentPID)
+	[ "$PID" = "" ] && return 2
+
+	echo $PID > $PIDFILE
+	return 0
+}
+
+#
+# Function that stops the daemon/service
+#
+do_stop()
+{
+	# Return
+	#   0 if daemon has been stopped
+	#   1 if daemon was already stopped
+	#   2 if daemon could not be stopped
+	#   other if a failure occurred
+
+	PID=$(getCurrentPID)
+	[ "$PID" = "" ] && echo -n "Not running" && return 1
+
+	kill -2 $PID 
+	sleep 3
+
+	PID=$(getCurrentPID)
+	[ "$PID" = "" ] || return 2
+
+	rm -f $PIDFILE
+	return 0
+}
+
+#
+# Function that return status of the daemon/service
+#
+do_status()
+{
+	# Return
+	#   0 if daemon is NOT running
+	#   1 if daemon is running
+	PID=$(getCurrentPID)
+	[ "$PID" = "" ] && return 0
+	return 1
+}
+
+if [ "$USER" != root ]
+then
+        echo "Please, run $SCRIPTNAME as root using 'sudo $SCRIPTNAME' command" >&2
+fi
+case "$1" in
+  start)
+	[ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
+	do_start
+	case "$?" in
+		0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+		2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+	esac
+	;;
+  stop)
+	[ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
+	do_stop
+	case "$?" in
+		0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+		2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+	esac
+	;;
+  kill)
+        [ "$VERBOSE" != no ] && log_daemon_msg "KILL $DESC" "$NAME"
+        $KILLSER $NAME 2>&1 > /dev/null
+        RES=`ps -ef | grep ser | grep $NAME | wc -l`
+        case $RES in
+                0) log_end_msg 0 ;;
+                *) log_end_msg 1 ;;
+        esac
+        ;;
+  status)
+	log_daemon_msg "Process running ??? $DESC" "$NAME"
+	do_status
+	case "$?" in
+		0) log_end_msg 1 ;;
+		*) log_end_msg 0 ;;
+	esac
+	;;
+  restart)
+        [ "$VERBOSE" != no ] && log_daemon_msg "Stopping $DESC" "$NAME"
+        do_stop
+        case "$?" in
+                0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+                2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+        esac
+	[ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
+        do_start
+        case "$?" in
+                0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
+                2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
+        esac
+	;;
+  *)
+	echo "Usage: $SCRIPTNAME {start|stop|kill|status|restart}" >&2
+	exit 3
+	;;
+esac
+
+:

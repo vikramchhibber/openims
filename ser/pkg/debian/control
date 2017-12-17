@@ -1,0 +1,36 @@
+Source: openimscore
+Section: net
+Priority: extra
+Maintainer: Arnaud Morin <arnaud.morin@gmail.com>
+Build-Depends: debhelper (>= 5), bison, flex, libxml2-dev, libmysqlclient15-dev, dpatch, po-debconf
+Standards-Version: 3.7.3
+
+Package: openimscore
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Contains the IMS core
+ This module is the system core
+
+Package: openimscore-pcscf
+Architecture: any
+Depends: ${shlibs:Depends}, openimscore (= ${binary:Version}) 
+Description: Contains the P-CSCF specific files
+ This module provides the functionality of P-CSCF
+
+Package: openimscore-icscf
+Architecture: any
+Depends: ${shlibs:Depends}, openimscore (= ${binary:Version}), mysql-server, mysql-client
+Description: Contains the I-CSCF specific files
+ This module provides the functionality of I-CSCF
+
+Package: openimscore-scscf
+Architecture: any
+Depends: ${shlibs:Depends}, openimscore (= ${binary:Version}) 
+Description: Contains the S-CSCF specific files
+ This module provides the functionality of S-CSCF
+
+Package: openimscore-dnsconf
+Architecture: any
+Depends: ${shlibs:Depends}, bind9
+Description: Contains the DNS configuration specific files
+ This module provides a typical DNS configuration for OpenIMSCore

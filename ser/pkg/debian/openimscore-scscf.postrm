@@ -1,0 +1,30 @@
+#!/bin/sh -e
+# postrm script for OpenIMSCore - SCSCF
+#
+
+##########################################
+# Restauring resolv.conf
+##########################################
+# Is resolv.conf edited by IMS ?
+if [ -f /etc/resolv.conf.imsback ]; then
+	printf " -->Reverting the .imsback file\n"
+	mv /etc/resolv.conf.imsback /etc/resolv.conf
+	rm -rf /etc/resolv.conf.imsback
+fi
+
+##########################################
+# Deleting scscf.cfg.default and 
+#          scscf.xml.default
+##########################################
+if [ "$1" = purge ]; then
+	# File exist ?
+	if [ -f /etc/openimscore/scscf.cfg.default ]; then
+		rm -rf /etc/openimscore/scscf.cfg.default
+	fi
+	if [ -f /etc/openimscore/scscf.xml.default ]; then
+		rm -rf /etc/openimscore/scscf.xml.default
+	fi
+fi
+
+#DEBHELPER#
+

@@ -1,0 +1,30 @@
+#!/bin/sh -e
+# postrm script for OpenIMSCore - PCSCF
+#
+
+##########################################
+# Restauring resolv.conf
+##########################################
+# Is resolv.conf edited by IMS ?
+if [ -f /etc/resolv.conf.imsback ]; then
+	printf " -->Reverting the .imsback file\n"
+	mv /etc/resolv.conf.imsback /etc/resolv.conf
+	rm -rf /etc/resolv.conf.imsback
+fi
+
+##########################################
+# Deleting pcscf.cfg.default and 
+#          pcscf.xml.default
+##########################################
+if [ "$1" = purge ]; then
+	# File exist ?
+	if [ -f /etc/openimscore/pcscf.cfg.default ]; then
+		rm -rf /etc/openimscore/pcscf.cfg.default
+	fi
+	if [ -f /etc/openimscore/pcscf.xml.default ]; then
+		rm -rf /etc/openimscore/pcscf.xml.default
+	fi
+fi
+
+#DEBHELPER#
+

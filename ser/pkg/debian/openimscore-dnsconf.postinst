@@ -1,0 +1,176 @@
+#!/bin/sh -e
+# postinst script for OpenIMSCore
+#
+
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+#################################################################################
+# Initialization & global vars
+#################################################################################
+#DDOMAIN : Default domain name
+DDOMAIN="open-ims\.test"
+#DSDOMAIN : Default domain name with slashes
+DSDOMAIN="open-ims\\\.test"
+#DEFAULTIP : Default IP Address
+DEFAULTIP="127\.0\.0\.1"
+
+#DNS_CONFFILES : DNS configuration files to edit
+cd /etc/bind/
+DNS_CONFFILES="open-ims.dnszone open-ims.dnszone.inv"
+
+#################################################################################
+#COPYING CONFIG FILES AND RUNNABLE SCRIPTS
+#################################################################################
+printf "\n\nCopying configuration file\n..."
+#Make default copy of open-ims.dnszone if does not exist (first time we execute this script)
+[ -f open-ims.dnszone.default ] && cp open-ims.dnszone.default open-ims.dnszone || cp open-ims.dnszone open-ims.dnszone.default
+
+#################################################################################
+#CONFIGURATION OF DOMAIN
+#################################################################################
+printf "\n\nConfiguration of Domain\n"
+
+#Domain name
+printf "Domain Name to use: "
+#Get variable
+db_get openimscore-dnsconf/domain_to_use
+domainname=$RET
+printf "$domainname\n"
+# input domain is to be slashed for cfg regexes 
+slasheddomain=`echo $domainname | sed 's/\./\\\\\\\\\./g'`
+
+#IP DNS
+printf "DNS IP: "
+#Get variable
+db_get openimscore-dnsconf/dns_ip
+ip_dns=$RET
+printf "$ip_dns\n"
+
+#IP P-CSCF
+printf "P-CSCF IP: "
+#Get variable
+db_get openimscore-dnsconf/ip_pcscf
+ip_pcscf=$RET
+printf "$ip_pcscf\n"
+
+#IP I-CSCF
+printf "I-CSCF IP: "
+#Get variable
+db_get openimscore-dnsconf/ip_icscf
+ip_icscf=$RET
+printf "$ip_icscf\n"
+
+#IP S-CSCF
+printf "S-CSCF IP: "
+#Get variable
+db_get openimscore-dnsconf/ip_scscf
+ip_scscf=$RET
+printf "$ip_scscf\n"
+
+#IP HSS
+printf "HSS IP: "
+#Get variable
+db_get openimscore-dnsconf/ip_hss
+ip_hss=$RET
+printf "$ip_hss\n"
+
+#Pour chaque adresse, je récupère chaque octet
+#ip_pcscf
+ip_pcscf1=$(echo $ip_pcscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\1/")
+ip_pcscf2=$(echo $ip_pcscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\2/")
+ip_pcscf3=$(echo $ip_pcscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\3/")
+ip_pcscf4=$(echo $ip_pcscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\4/")
+#ip_pcscf
+ip_scscf1=$(echo $ip_scscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\1/")
+ip_scscf2=$(echo $ip_scscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\2/")
+ip_scscf3=$(echo $ip_scscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\3/")
+ip_scscf4=$(echo $ip_scscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\4/")
+#ip_pcscf
+ip_icscf1=$(echo $ip_icscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\1/")
+ip_icscf2=$(echo $ip_icscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\2/")
+ip_icscf3=$(echo $ip_icscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\3/")
+ip_icscf4=$(echo $ip_icscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\4/")
+#ip_pcscf
+ip_hss1=$(echo $ip_hss | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\1/")
+ip_hss2=$(echo $ip_hss | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\2/")
+ip_hss3=$(echo $ip_hss | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\3/")
+ip_hss4=$(echo $ip_hss | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\4/")
+
+#Enfin, je compare les octets ensembles et je construit mon adresse de début
+[ "$ip_pcscf1" -eq "$ip_scscf1" ] && [ "$ip_pcscf1" -eq "$ip_icscf1" ] && [ "$ip_pcscf1" -eq "$ip_hss1" ] && result=$ip_pcscf1 && result_norm=$ip_pcscf1 && [ "$ip_pcscf2" -eq "$ip_scscf2" ] && [ "$ip_pcscf2" -eq "$ip_icscf2" ] && [ "$ip_pcscf2" -eq "$ip_hss2" ] && result=$ip_pcscf2.$result && result_norm=$result_norm.$ip_pcscf2 && [ "$ip_pcscf3" -eq "$ip_scscf3" ] && [ "$ip_pcscf3" -eq "$ip_icscf3" ] && [ "$ip_pcscf3" -eq "$ip_hss3" ] && result=$ip_pcscf3.$result && result_norm=$result_norm.$ip_pcscf3
+ip_addr_inv=$result
+
+#Je dois maintenant récupérer les adresse courtes de mes différents services
+#Pour cela, je commence par inverser les adresse ip
+ip_pcscf_inv=$(echo $ip_pcscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\4\.\3\.\2\.\1/")
+ip_pcscf_short=$(echo $ip_pcscf_inv | sed -r "s/([0-9]+)\.($result)/\1/")
+
+ip_scscf_inv=$(echo $ip_scscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\4\.\3\.\2\.\1/")
+ip_scscf_short=$(echo $ip_scscf_inv | sed -r "s/([0-9]+)\.($result)/\1/")
+
+ip_icscf_inv=$(echo $ip_icscf | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\4\.\3\.\2\.\1/")
+ip_icscf_short=$(echo $ip_icscf_inv | sed -r "s/([0-9]+)\.($result)/\1/")
+
+ip_hss_inv=$(echo $ip_hss | sed -r "s/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/\4\.\3\.\2\.\1/")
+ip_hss_short=$(echo $ip_hss_inv | sed -r "s/([0-9]+)\.($result)/\1/")
+
+printf "Apply this Domain and IP to all configuration files ...\n"
+printf "DNS ZONE Configuration files\n"
+for i in $DNS_CONFFILES 
+do
+	sed -i -e "s/$DDOMAIN/$domainname/g" $i
+	sed -i -e "s/$DSDOMAIN/$slasheddomain/g" $i
+	sed -i -e "s/__PCSCFADDR_SHORT__/$ip_pcscf_short/g" $i
+	sed -i -e "s/__ICSCFADDR_SHORT__/$ip_icscf_short/g" $i
+	sed -i -e "s/__SCSCFADDR_SHORT__/$ip_scscf_short/g" $i
+	sed -i -e "s/__HSSADDR_SHORT__/$ip_hss_short/g" $i
+	sed -i -e "s/__PCSCFADDR__/$ip_pcscf/g" $i
+	sed -i -e "s/__ICSCFADDR__/$ip_icscf/g" $i
+	sed -i -e "s/__SCSCFADDR__/$ip_scscf/g" $i
+	sed -i -e "s/__HSSADDR__/$ip_hss/g" $i
+	sed -i -e "s/__DNSADDR__/$ip_dns/g" $i
+	printf " --> $i done\n" 
+done
+
+#################################################################################
+#CONFIGURATION OF DNS
+#################################################################################
+printf "\n\nConfiguration of DNS (Domain Name Server) \n"
+
+#1-Is it the first time we edit named.conf ?
+printf "Is it the first time we edit named.conf ? "
+if [ -f /etc/bind/named.conf.imsback ]; then
+	printf "No\n"
+	printf "Reverting the .imsback file\n"
+	mv /etc/bind/named.conf.imsback /etc/bind/named.conf
+else
+	printf "Yes\n"
+fi
+
+#2-Adding dnszone file to /etc/bind/named.conf
+cp /etc/bind/named.conf /etc/bind/named.conf.imsback
+printf "\nAdding to /etc/bind/named.conf : \n"
+echo "//######################" |  tee -a /etc/bind/named.conf
+echo "//Added for OpenIMSCore" |  tee -a /etc/bind/named.conf
+echo "zone \"$domainname\" IN {" |  tee -a /etc/bind/named.conf
+echo "	type master;" |  tee -a /etc/bind/named.conf
+echo "	file \"/etc/bind/open-ims.dnszone\";" |  tee -a /etc/bind/named.conf
+echo "	notify no;" |  tee -a /etc/bind/named.conf
+echo "};" |  tee -a /etc/bind/named.conf
+echo " "  |  tee -a /etc/bind/named.conf
+echo "zone \"$ip_addr_inv.in-addr.arpa\" {" |  tee -a /etc/bind/named.conf
+echo "	type master;" |  tee -a /etc/bind/named.conf
+echo "	file \"/etc/bind/open-ims.dnszone.inv\";" |  tee -a /etc/bind/named.conf
+echo "	notify no;" |  tee -a /etc/bind/named.conf
+echo "};" |  tee -a /etc/bind/named.conf
+echo "//######################" |  tee -a /etc/bind/named.conf
+
+#3-Restarting BIND
+echo "\nRestarting BIND : "
+/etc/init.d/bind9 restart
+
+#DEBHELPER#
+
+printf "\nEnd of configuration script\n"
+db_stop

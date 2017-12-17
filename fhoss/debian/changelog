@@ -1,0 +1,19 @@
+openimscore-fhoss (1187~ppa3) precise; urgency=low
+
+  * Bugfixes for missing S-CSCF name, Unknown authentication scheme and
+    incorrect Experimental-Result-Code AVPs
+
+ -- Rob Day <rkd@rkd.me.uk>  Sat, 05 Jul 2014 17:53:17 +0000
+
+openimscore-fhoss (680~ppa1) lenny; urgency=low
+
+  * New release, see SVN for changes
+
+ -- Arnaud Morin <arnaud1.morin@orange-ftgroup.com>  Mon, 29 Jun 2009 15:54:58 +0200
+
+openimscore-fhoss (601-0ubuntu1) lenny; urgency=low
+
+  * Initial debian package
+
+ -- Arnaud Morin <arnaud1.morin@orange-ftgroup.com>  Fri, 11 Apr 2008 10:29:32 +0200
+

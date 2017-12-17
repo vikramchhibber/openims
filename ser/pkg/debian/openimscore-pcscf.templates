@@ -1,0 +1,69 @@
+Template: openimscore-pcscf/welcome
+Type: text
+_Description: Welcome !
+ Welcome in the configuration script for P-CSCF - OpenIMSCore.
+ .
+ This script will help you to get a working copy of P-CSCF for OpenIMSCore
+ You can run this script again by using the following command :
+ .
+ "sudo dpkg-reconfigure openimscore-pcscf"
+
+Template: openimscore-pcscf/domain_to_use
+Type: string
+Default: open-ims.test
+_Description: What is the domain name ?
+ OpenIMSCore is using a domain name, please provide it.
+
+Template: openimscore-pcscf/ip_to_use
+Type: string
+_Description: What is the public IP address for this machine ?
+ In order to listen on this domain name, you must provide an IP address to bind.
+
+Template: openimscore-pcscf/dns_ip
+Type: string
+_Description: What is the public IP address for your Domain Name Server ?
+ Your domain name server can give you adresses of each CSCF or HSS in the network. You must configure it.
+
+Template: openimscore-pcscf/enforce_service_routes
+Type: select
+Choices: yes, no
+Default: yes
+_Description: Do you want to enforce service routes ?
+ Some Softphone (like Twinkle) or ACT Phones (Advantage Century Telecommunication) 
+ are not able to follow service routes provided by OpenIMSCore. If this kind of phones 
+ are going to be use in your environnement, you must enforce service routes.
+
+Template: openimscore-pcscf/disable_ping
+Type: select
+Choices: yes, no
+Default: yes
+_Description: Do you want to disable ping ?
+ ACT phones are not compliant with KeepAlive (ping) service provided by OpenIMSCore. 
+ It must be disabled to use ACT.
+
+Template: openimscore-pcscf/debug_level
+Type: select
+Choices: 0, 1, 2, 3
+Default: 1
+_Description: What debug level do you want ?
+ 0: no debug messages
+ 3: a lot of debug messages
+
+Template: openimscore-pcscf/use_syslog
+Type: select
+Choices: yes, no
+Default: no
+_Description: Do you want to use the syslog-ng system ?
+ In order to be advised to the behaviour of OpenIMSCore, two logging system are available.
+ .
+ The first system is dealing with syslog-ng (logging in MySQL database). Log information 
+ would be displayed with php-syslog-ng.
+ .
+ The second system is dealing with logging files in "/var/log/OpenIMSCore/".
+
+Template: openimscore-pcscf/pcscf_config
+Type: select
+Choices: yes, no
+Default: yes
+_Description: Do you want to start P-CSCF automatically
+ The P-CSCF service can be started automatically with the machine.

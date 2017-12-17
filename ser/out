@@ -1,0 +1,300 @@
+gcc -g -O9 -funroll-loops -Wcast-align -minline-all-stringops -falign-loops -ftree-vectorize -mtune=opteron -Wall     -DNAME='"ser"' -DVERSION='"2.1.0-dev1 OpenIMSCore"' -DARCH='"x86_64"' -DOS='linux_' -DOS_QUOTED='"linux"' -DCOMPILER='"gcc 4.8.4"' -D__CPU_x86_64 -D__OS_linux -DSER_VER=2001000 -DCFG_DIR='"/usr/local/etc/ser/"' -DPKG_MALLOC -DSHM_MEM  -DSHM_MMAP -DDNS_IP_HACK -DUSE_IPV6 -DUSE_MCAST -DUSE_TCP -DDISABLE_NAGLE -DHAVE_RESOLV_RES -DDBG_QM_MALLOC -DUSE_DNS_CACHE -DUSE_DNS_FAILOVER -DUSE_DST_BLACKLIST -ggdb  -DUSE_TLS -DTLS_HOOKS -DFAST_LOCK -DADAPTIVE_WAIT -DADAPTIVE_WAIT_LOOPS=1024  -DCC_GCC_LIKE_ASM -DHAVE_GETHOSTBYNAME2 -DHAVE_UNION_SEMUN -DHAVE_SCHED_YIELD -DHAVE_MSG_NOSIGNAL -DHAVE_MSGHDR_MSG_CONTROL -DHAVE_ALLOCA_H -DHAVE_TIMEGM -DHAVE_EPOLL -DHAVE_SIGIO_RT -DSIGINFO64_WORKARROUND -DHAVE_SELECT -c tcp_read.c -o tcp_read.o
+gcc  -Wl,-O2 -Wl,-E   action.o atomic_ops.o core_cmd.o crc.o daemonize.o data_lump.o data_lump_rpl.o dns_cache.o dprint.o dset.o dst_blacklist.o error.o flags.o forward.o hash_func.o id.o io_wait.o ip_addr.o main.o md5.o md5utils.o modparam.o msg_translator.o nonsip_hooks.o pass_fd.o proxy.o pt.o qvalue.o re.o receive.o resolve.o route.o route_struct.o script_cb.o select_buf.o select.o select_core.o ser_stun.o signals.o socket_info.o sr_module.o stats.o tcp_main.o tcp_read.o timer.o tls_hooks.o tsend.o udp_server.o usr_avp.o ut.o mem/f_malloc.o mem/mem.o mem/memtest.o mem/q_malloc.o mem/shm_mem.o mem/vq_malloc.o parser/hf.o parser/msg_parser.o parser/parse_allow.o parser/parse_content.o parser/parse_cseq.o parser/parse_disposition.o parser/parse_diversion.o parser/parse_event.o parser/parse_expires.o parser/parse_fline.o parser/parse_from.o parser/parse_geoloc.o parser/parse_hname2.o parser/parse_hostport.o parser/parse_methods.o parser/parse_nameaddr.o parser/parse_param.o parser/parse_refer_to.o parser/parser_f.o parser/parse_rpid.o parser/parse_rr.o parser/parse_sipifmatch.o parser/parse_subscription_state.o parser/parse_to.o parser/parse_uri.o parser/parse_via.o parser/digest/digest.o parser/digest/digest_parser.o parser/digest/param_parser.o parser/contact/contact.o parser/contact/parse_contact.o db/db.o db/db_id.o db/db_pool.o lex.yy.o cfg.tab.o  -ldl -lresolv -o ser 
+make -C lib -f Makefile.ser
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/lib'
+Making  in binrpc
+make[2]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/lib/binrpc'
+make[2]: `libbinrpc.so' is up to date.
+make[2]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/lib/binrpc'
+Making  in cds
+make[2]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/lib/cds'
+make[2]: `lib_ser_cds.so' is up to date.
+make[2]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/lib/cds'
+Making  in xcap
+make[2]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/lib/xcap'
+make[2]: `lib_ser_xcap.so' is up to date.
+make[2]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/lib/xcap'
+Making  in presence
+make[2]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/lib/presence'
+make[2]: `lib_ser_presence.so' is up to date.
+make[2]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/lib/presence'
+Making  in lost
+make[2]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/lib/lost'
+make[2]: `lib_lost_client.so' is up to date.
+make[2]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/lib/lost'
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/lib'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/acc_db'
+make[1]: `acc_db.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/acc_db'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/acc_syslog'
+make[1]: `acc_syslog.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/acc_syslog'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/auth'
+make[1]: `auth.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/auth'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/auth_db'
+make[1]: `auth_db.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/auth_db'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/avp'
+make[1]: `avp.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/avp'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/avp_db'
+make[1]: `avp_db.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/avp_db'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/avpops'
+make[1]: `avpops.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/avpops'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/cdp'
+make[1]: `cdp.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/cdp'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/cdp_avp'
+make[1]: `cdp_avp.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/cdp_avp'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/Client_Rf'
+make[1]: `Client_Rf.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/Client_Rf'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/ctl'
+make[1]: `ctl.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/ctl'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/db_ops'
+make[1]: `db_ops.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/db_ops'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/dbtext'
+make[1]: `dbtext.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/dbtext'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/dialog'
+make[1]: `dialog.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/dialog'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/dispatcher'
+make[1]: `dispatcher.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/dispatcher'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/diversion'
+make[1]: `diversion.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/diversion'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/domain'
+make[1]: `domain.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/domain'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/ecscf'
+make[1]: `ecscf.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/ecscf'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/enum'
+make[1]: `enum.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/enum'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/exec'
+make[1]: `exec.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/exec'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/fifo'
+make[1]: `fifo.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/fifo'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/flatstore'
+make[1]: `flatstore.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/flatstore'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/gflags'
+make[1]: `gflags.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/gflags'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/icscf'
+make[1]: `icscf.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/icscf'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/isc'
+make[1]: `isc.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/isc'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/lcr'
+make[1]: `lcr.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/lcr'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/lrf'
+make[1]: `lrf.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/lrf'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/maxfwd'
+make[1]: `maxfwd.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/maxfwd'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/mediaproxy'
+make[1]: `mediaproxy.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/mediaproxy'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/mgcf'
+make[1]: `mgcf.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/mgcf'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/msilo'
+make[1]: `msilo.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/msilo'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/mysql'
+make[1]: `mysql.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/mysql'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/nathelper'
+make[1]: `nathelper.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/nathelper'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/options'
+make[1]: `options.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/options'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/pcscf'
+make[1]: `pcscf.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/pcscf'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/pdt'
+make[1]: `pdt.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/pdt'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/permissions'
+make[1]: `permissions.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/permissions'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/pike'
+make[1]: `pike.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/pike'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/print'
+make[1]: `print.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/print'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/ratelimit'
+make[1]: `ratelimit.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/ratelimit'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/registrar'
+make[1]: `registrar.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/registrar'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/rr'
+make[1]: `rr.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/rr'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/sanity'
+make[1]: `sanity.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/sanity'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/scscf'
+make[1]: `scscf.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/scscf'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/sl'
+make[1]: `sl.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/sl'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/sms'
+make[1]: `sms.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/sms'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/speeddial'
+make[1]: `speeddial.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/speeddial'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/textops'
+make[1]: `textops.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/textops'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/timer'
+make[1]: `timer.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/timer'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/tm'
+make[1]: `tm.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/tm'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/uac'
+make[1]: `uac.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/uac'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/uri'
+make[1]: `uri.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/uri'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/uri_db'
+make[1]: `uri_db.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/uri_db'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/usrloc'
+make[1]: `usrloc.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/usrloc'
+
+
+make[1]: Entering directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/xlog'
+make[1]: `xlog.so' is up to date.
+make[1]: Leaving directory `/usr/local/home/vikramc/repo/main/third_party/openims/ser/modules/xlog'

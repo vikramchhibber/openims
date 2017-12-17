@@ -1,0 +1,3 @@
+./cfg/icscf.sh usr/sbin/
+./cfg/icscf.sql etc/openimscore/sql_files
+

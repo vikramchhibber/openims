@@ -1,0 +1,66 @@
+Template: openimscore-icscf/welcome
+Type: text
+_Description: Welcome !
+ Welcome in the configuration script for I-CSCF - OpenIMSCore.
+ .
+ This script will help you to get a working copy of I-CSCF for OpenIMSCore
+ You can run this script again by using the following command :
+ .
+ "sudo dpkg-reconfigure openimscore-icscf"
+
+Template: openimscore-icscf/domain_to_use
+Type: string
+Default: open-ims.test
+_Description: What is the domain name ?
+ OpenIMSCore is using a domain name, please provide it.
+
+Template: openimscore-icscf/ip_to_use
+Type: string
+_Description: What is the public IP address for this machine ?
+ In order to listen on this domain name, you must provide an IP address to bind.
+
+Template: openimscore-icscf/dns_ip
+Type: string
+_Description: What is the public IP address for your Domain Name Server ?
+ Your domain name server can give you adresses of each CSCF or HSS in the network. You must configure it.
+
+Template: openimscore-icscf/sql_data
+Type: select
+Choices: yes, no
+Default: yes
+_Description: Do you want to configure MySQL ?
+ MySQL is a database server. The OpenIMSCore system use different databases.
+ If you do not have already added data to MySQL, you should do it now.
+ If you are running "sudo dpkg-reconfigure openimscore-icscf", this step can be skipped.
+
+Template: openimscore-icscf/sql_password
+Type: password
+_Description: What is the MySQL password for root ?
+ The root MySQL password is needed in order to continue.
+
+Template: openimscore-icscf/debug_level
+Type: select
+Choices: 0, 1, 2, 3
+Default: 1
+_Description: What debug level do you want ?
+ 0: no debug messages
+ 3: a lot of debug messages
+
+Template: openimscore-icscf/use_syslog
+Type: select
+Choices: yes, no
+Default: no
+_Description: Do you want to use the syslog-ng system ?
+ In order to be advised to the behaviour of OpenIMSCore, two logging system are available.
+ .
+ The first system is dealing with syslog-ng (logging in MySQL database). Log information 
+ would be displayed with php-syslog-ng.
+ .
+ The second system is dealing with logging files in "/var/log/OpenIMSCore/".
+
+Template: openimscore-icscf/icscf_config
+Type: select
+Choices: yes, no
+Default: yes
+_Description: Do you want to start I-CSCF automatically
+ The I-CSCF service can be started automatically with the machine.

@@ -1,0 +1,12 @@
+openimscore (680~ppa1) lenny; urgency=low
+
+  * Update to revision 680
+
+ -- Arnaud Morin <arnaud1.morin@orange-ftgroup.com>  Thu, 18 Jun 2009 17:05:50 +0200
+
+openimscore (636~ppa1) lenny; urgency=low
+
+  * Initial release
+
+ -- Arnaud Morin <arnaud.morin@gmail.com>  Thu, 09 Apr 2009 11:17:35 +0200
+

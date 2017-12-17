@@ -1,0 +1,375 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: Source: openimscore@packages.debian.org\n"
+"POT-Creation-Date: 2009-04-09 15:53+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: text
+#. Description
+#: ../openimscore-dnsconf.templates:1001 ../openimscore-pcscf.templates:1001
+#: ../openimscore-icscf.templates:1001 ../openimscore-scscf.templates:1001
+msgid "Welcome !"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../openimscore-dnsconf.templates:1001
+msgid "Welcome in the configuration script for DNS - OpenIMSCore."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../openimscore-dnsconf.templates:1001
+msgid ""
+"This script will help you to get a working copy of OpenIMSCore You can run "
+"this script again by using the following command :"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../openimscore-dnsconf.templates:1001
+msgid "\"sudo dpkg-reconfigure openimscore-dnsconf\""
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-dnsconf.templates:2001 ../openimscore-pcscf.templates:2001
+#: ../openimscore-icscf.templates:2001 ../openimscore-scscf.templates:2001
+msgid "What is the domain name ?"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-dnsconf.templates:2001 ../openimscore-pcscf.templates:2001
+#: ../openimscore-icscf.templates:2001 ../openimscore-scscf.templates:2001
+msgid "OpenIMSCore is using a domain name, please provide it."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-dnsconf.templates:3001
+msgid "What is the public IP address for this Domain Name Server ?"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-dnsconf.templates:3001
+msgid ""
+"In order to know where the DNS is in the domain name, you must provide an IP "
+"address."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-dnsconf.templates:4001
+msgid "What is the IP address for the P-CSCF ?"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-dnsconf.templates:4001
+msgid ""
+"In order to know where the P-CSCF is in the domain name, you must provide an "
+"IP address."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-dnsconf.templates:5001
+msgid "What is the IP address for the I-CSCF ?"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-dnsconf.templates:5001
+msgid ""
+"In order to know where the I-CSCF is in the domain name, you must provide an "
+"IP address."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-dnsconf.templates:6001
+msgid "What is the IP address for the S-CSCF ?"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-dnsconf.templates:6001
+msgid ""
+"In order to know where the S-CSCF is in the domain name, you must provide an "
+"IP address."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-dnsconf.templates:7001
+msgid "What is the IP address for the HSS ?"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-dnsconf.templates:7001
+msgid ""
+"In order to know where the HSS is in the domain name, you must provide an IP "
+"address."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../openimscore-pcscf.templates:1001
+msgid "Welcome in the configuration script for P-CSCF - OpenIMSCore."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../openimscore-pcscf.templates:1001
+msgid ""
+"This script will help you to get a working copy of P-CSCF for OpenIMSCore "
+"You can run this script again by using the following command :"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../openimscore-pcscf.templates:1001
+msgid "\"sudo dpkg-reconfigure openimscore-pcscf\""
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-pcscf.templates:3001 ../openimscore-icscf.templates:3001
+#: ../openimscore-scscf.templates:3001
+msgid "What is the public IP address for this machine ?"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-pcscf.templates:3001 ../openimscore-icscf.templates:3001
+#: ../openimscore-scscf.templates:3001
+msgid ""
+"In order to listen on this domain name, you must provide an IP address to "
+"bind."
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-pcscf.templates:4001 ../openimscore-icscf.templates:4001
+#: ../openimscore-scscf.templates:4001
+msgid "What is the public IP address for your Domain Name Server ?"
+msgstr ""
+
+#. Type: string
+#. Description
+#: ../openimscore-pcscf.templates:4001 ../openimscore-icscf.templates:4001
+#: ../openimscore-scscf.templates:4001
+msgid ""
+"Your domain name server can give you adresses of each CSCF or HSS in the "
+"network. You must configure it."
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-pcscf.templates:5001
+msgid "Do you want to enforce service routes ?"
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-pcscf.templates:5001
+msgid ""
+"Some Softphone (like Twinkle) or ACT Phones (Advantage Century "
+"Telecommunication)  are not able to follow service routes provided by "
+"OpenIMSCore. If this kind of phones  are going to be use in your "
+"environnement, you must enforce service routes."
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-pcscf.templates:6001
+msgid "Do you want to disable ping ?"
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-pcscf.templates:6001
+msgid ""
+"ACT phones are not compliant with KeepAlive (ping) service provided by "
+"OpenIMSCore.  It must be disabled to use ACT."
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-pcscf.templates:7001 ../openimscore-icscf.templates:7001
+#: ../openimscore-scscf.templates:6001
+msgid "What debug level do you want ?"
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-pcscf.templates:7001 ../openimscore-icscf.templates:7001
+#: ../openimscore-scscf.templates:6001
+msgid "0: no debug messages 3: a lot of debug messages"
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-pcscf.templates:8001 ../openimscore-icscf.templates:8001
+#: ../openimscore-scscf.templates:7001
+msgid "Do you want to use the syslog-ng system ?"
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-pcscf.templates:8001 ../openimscore-icscf.templates:8001
+#: ../openimscore-scscf.templates:7001
+msgid ""
+"In order to be advised to the behaviour of OpenIMSCore, two logging system "
+"are available."
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-pcscf.templates:8001 ../openimscore-icscf.templates:8001
+#: ../openimscore-scscf.templates:7001
+msgid ""
+"The first system is dealing with syslog-ng (logging in MySQL database). Log "
+"information  would be displayed with php-syslog-ng."
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-pcscf.templates:8001 ../openimscore-icscf.templates:8001
+#: ../openimscore-scscf.templates:7001
+msgid ""
+"The second system is dealing with logging files in \"/var/log/OpenIMSCore/\"."
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-pcscf.templates:9001
+msgid "Do you want to start P-CSCF automatically"
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-pcscf.templates:9001
+msgid "The P-CSCF service can be started automatically with the machine."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../openimscore-icscf.templates:1001
+msgid "Welcome in the configuration script for I-CSCF - OpenIMSCore."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../openimscore-icscf.templates:1001
+msgid ""
+"This script will help you to get a working copy of I-CSCF for OpenIMSCore "
+"You can run this script again by using the following command :"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../openimscore-icscf.templates:1001
+msgid "\"sudo dpkg-reconfigure openimscore-icscf\""
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-icscf.templates:5001
+msgid "Do you want to configure MySQL ?"
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-icscf.templates:5001
+msgid ""
+"MySQL is a database server. The OpenIMSCore system use different databases. "
+"If you do not have already added data to MySQL, you should do it now. If you "
+"are running \"sudo dpkg-reconfigure openimscore-icscf\", this step can be "
+"skipped."
+msgstr ""
+
+#. Type: password
+#. Description
+#: ../openimscore-icscf.templates:6001
+msgid "What is the MySQL password for root ?"
+msgstr ""
+
+#. Type: password
+#. Description
+#: ../openimscore-icscf.templates:6001
+msgid "The root MySQL password is needed in order to continue."
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-icscf.templates:9001
+msgid "Do you want to start I-CSCF automatically"
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-icscf.templates:9001
+msgid "The I-CSCF service can be started automatically with the machine."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../openimscore-scscf.templates:1001
+msgid "Welcome in the configuration script for S-CSCF - OpenIMSCore."
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../openimscore-scscf.templates:1001
+msgid ""
+"This script will help you to get a working copy of S-CSCF for OpenIMSCore "
+"You can run this script again by using the following command :"
+msgstr ""
+
+#. Type: text
+#. Description
+#: ../openimscore-scscf.templates:1001
+msgid "\"sudo dpkg-reconfigure openimscore-scscf\""
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-scscf.templates:5001
+msgid "Do you want to use MD5 instead of AKAv1-MD5 ?"
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-scscf.templates:5001
+msgid ""
+"The default encryption in OpenIMSCore is AKAv1-MD5. ACT phones only support "
+"MD5 encryption."
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-scscf.templates:8001
+msgid "Do you want to start S-CSCF automatically"
+msgstr ""
+
+#. Type: select
+#. Description
+#: ../openimscore-scscf.templates:8001
+msgid "The S-CSCF service can be started automatically with the machine."
+msgstr ""

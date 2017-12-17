@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DiameterPeer 
+	FQDN="pcscf.open-ims.test"
+	Realm="open-ims.test"
+	Vendor_Id="10415"
+	Product_Name="CDiameterPeer"
+	AcceptUnknownPeers="1"
+	DropUnknownOnDisconnect="1"
+	Tc="30"
+	Workers="4"
+	QueueLength="8"
+	TransactionTimeout="5"
+	SessionsHashSize="128"
+	DefaultAuthSessionTimeout="60"
+	MaxAuthSessionTimeout="300"
+>
+	<Peer FQDN="clf.open-ims.test" Realm="open-ims.test" port="3868"/> 
+	<Peer FQDN="pcrf.open-ims.test" Realm="open-ims.test" port="4868"/> 
+
+	<Acceptor port="3867" bind="127.0.0.1"/>
+	
+	<Auth id="16777231" vendor="13019"/> <!-- ETSI e2 -->
+	<Auth id="16777236" vendor="10415"/> <!-- 3GPP Rx -->
+	<Auth id="16777236" vendor="0"/>     <!-- Rx -->
+	<Auth id="16777222" vendor="10415"/> <!-- 3GPP Gq -->
+	<Auth id="16777222" vendor="13019"/> <!-- ETSI Gq prima -->
+
+	<DefaultRoute FQDN="pcrf.open-ims.test" metric="10"/>
+	<DefaultRoute FQDN="clf.open-ims.test" metric="10"/>
+	
+<!-- Realm Routing configuration - Uncomment and Edit!
+
+	<Realm name="open-ims.test">
+		<Route FQDN="clf1.open-ims.test" metric="10"/>
+		<Route FQDN="clf2.open-ims.test" metric="20"/>
+	</Realm>
+	<Realm name="another.open-ims.test">
+		<Route FQDN="clf3.open-ims.test" metric="10"/>
+		<Route FQDN="clf2.open-ims.test" metric="20"/>		
+	</Realm>
+	<DefaultRoute FQDN="clf.open-ims.test" metric="10"/>
+	<DefaultRoute FQDN="clf4.open-ims.test" metric="20"/>
+
+-->
+
+</DiameterPeer>

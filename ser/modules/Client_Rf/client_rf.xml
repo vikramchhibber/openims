@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+ 
+   $Id: client_rf.xml 1153 2011-09-07 14:34:57Z aon $
+ 	Copyright (C) 2011 FhG Fokus
+	
+  This file is part of the Wharf project.
+
+ \file
+  
+  Wharf configuration file for a Client Rf module 
+  
+ -->
+<Client_Rf>
+	<Rf 
+		node_func="9"
+		origin_host="pcef-rf.openepc.test"
+		origin_realm="openepc.test"
+		destination_host="cdf.openepc.test"
+		destination_realm="openepc.test"
+		service_context_id="11.32251@3gpp.org"
+		/>
+</Client_Rf>

@@ -1,0 +1,205 @@
+/* + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + */
+/* Basic Styles Fokus Testbeds */
+/* + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + */
+
+/* basics: */
+html, body, div, p, h1, h2, h3, ul, ol, span, a, table, td, form, img, li {
+margin:0;padding:0;
+font-family: Verdana, Arial, Helvetica, sans-serif;
+line-height:140%;
+}
+
+.inputbox {
+border: #333333;
+border-style: solid;
+border-top-width: 1px;
+border-right-width: 1px;
+border-bottom-width: 1px;
+border-left-width: 1px;
+background-color: #ffffff;
+}
+
+.inputtext {
+border: #333333;
+border-style: solid;
+border-top-width: 1px;
+border-right-width: 1px;
+border-bottom-width: 1px;
+border-left-width: 1px;
+background-color: #ffffff;
+}
+
+img{display:block;}
+.inline{display:inline;}
+
+.unsichtbar{display:none;}
+.bold{font-weight:bold;}
+
+a {color:#333;}
+a:hover {color:#666;}
+
+html, body {
+	background: #fdde96 url('images/bg_main.gif') repeat-x;
+	text-align:center
+}
+
+/* text: */
+
+h1, h2, p{padding:0 55px;}
+
+h1{font-size: 15px;color:#333;padding:30px 55px 0 0px;}
+h2{font-size: 12px;color:#333;padding:0 55px 0 0;}
+p{font-size: 12px;color:#333;padding:5px 55px 15px 0px;}
+p.untertitel{font-size:12px;color:#333;padding:0 55px 15px 0px;font-weight:bold;}
+p.bildsub{font-size:10px;color:#333;padding:0 55px 15px 0px;font-weight:bold;}
+
+
+/* + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + */
+/* Der mittlere Bereich (zentriert): */
+
+#centerarea{
+text-align:left;
+width:930px;
+background: #fff url('images/bg_main.gif') repeat-x;
+padding:0;
+margin:auto;
+border-left:1px solid #666;
+border-right:1px solid #666;
+border-bottom:1px solid #666
+}
+
+#header{
+position:relative;top:0;left:0;
+width:930px;height:172px;
+padding:0;margin:0;
+}
+#header img{
+display:inline;
+margin:0; padding:0; border:0px none;
+}
+
+/* + + + + + + + + + + + + + + + + + + + + + + + + */
+/* Navigation Level 1 und 2: */
+
+#navlevel01{
+padding:0; border:0px none;
+height:16px; margin-left:180px; margin-right:0; margin-top:17px; margin-bottom:0
+}
+
+#navlevel01 a{
+padding:0; border:0px none;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 11px;
+font-weight: bold;
+color: #333;
+text-decoration:none;
+text-transform:uppercase; margin-left:0; margin-right:20px; margin-top:0; margin-bottom:0
+}
+#navlevel01 a:hover, #navlevel01 a.selected{
+color: #EB9015;
+}
+
+#navlevel02{
+padding:0; border:0px none;
+height:16px; margin-left:180px; margin-right:0; margin-top:0; margin-bottom:0
+}
+
+#navlevel02 a{
+padding:0; border:0px none;
+font-family: Arial, Helvetica, sans-serif;
+font-size: 11px;
+font-weight: bold;
+color: #fff;
+text-decoration:none; margin-left:0; margin-right:15px; margin-top:0; margin-bottom:0
+}
+#navlevel02 a:hover, #navlevel02 a.selected{
+color: #333;
+}
+
+
+#navenglish{
+position:absolute;top:140px;right:10px;
+margin:0; padding:0; border:0px none;
+height:16px
+}
+
+#navenglish a{
+font-family: Arial, Helvetica, sans-serif;
+font-size: 11px;
+font-weight: bold;
+color: #EB9015;
+text-decoration:none;
+}
+#navenglish a:hover, #navenglish a.selected{
+color: #333;
+}
+
+
+/* + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + */
+/* Der untere 3-spaltige Bereich als Tabelle: */
+
+table#main{
+margin:0; padding:0; border:0px none;
+border-collapse:collapse
+}
+
+/* + + + + + + + + + + + + + + */
+/* linke Spalte */
+
+td#spaltelogo{
+margin:0; border: 0px none;
+width:170px;
+vertical-align:top; padding-left:0; padding-right:0; padding-top:30px; padding-bottom:0
+}
+
+/* + + + + + + + + + + + + + + + */
+/* mittlere Spalte */
+
+td#spaltecontent { border-left:1px solid #666; border-right:1px solid #666; border-top:0px none #666; border-bottom:0px none #666; font-size: 12px; color:#333; margin: 0; width: 588px; vertical-align: top; padding-left:55px; padding-right:0; padding-top:0; padding-bottom:0 }
+
+td#spaltecontent img { margin: 15px 55px 15px 0; padding: 0; border: solid 0px #666 }
+
+td#spaltecontent a {color:#00795A;font-weight:bold;text-decoration:none;}
+td#spaltecontent a:hover {color:#4A9E73;}
+td#spaltecontent li  { color: #333; font-size: 12px; padding: 5px 55px 5px 15px }
+td#spaltecontent ul   { color: #333; font-size: 12px; padding: 5px 55px }
+td#spaltecontent ol   { color: #333; font-size: 12px; padding: 5px 55px }
+
+/* + + + + + + + + + + + + + + + + */
+/* spalteservicenav (rechte Seite) */
+
+td#spalteservicenav{
+margin:0; border:0px none;
+width:170px;
+vertical-align:top; padding-left:0; padding-right:0; padding-top:20px; padding-bottom:20px
+}
+
+td#spalteservicenav ul{
+font-size:11px;font-weight:normal;
+list-style-type:none;
+padding:0;
+border:0px none;; margin-left:36px; margin-right:10px; margin-top:16px; margin-bottom:16px
+}
+td#spalteservicenav ul li{
+font-family: Arial, Helvetica, sans-serif;
+margin:0 0 6px 0; padding:0;
+line-height:14px;
+}
+
+
+td#spalteservicenav ul a{color:#333;text-decoration:none;line-height:14px;}
+td#spalteservicenav ul a:hover{color:#666;text-decoration:none;}
+
+
+/* Die Zuordnung der Icons: */
+td#spalteservicenav ul li.icontext{list-style-image:url('/images/neuerBereich/testbeds/icons/icon_text.gif');}
+td#spalteservicenav ul li.iconbild{list-style-image:url('/images/neuerBereich/testbeds/icons/icon_bild.gif');}
+td#spalteservicenav ul li.iconfilm{list-style-image:url('/images/neuerBereich/testbeds/icons/icon_film.gif');}
+
+td#spalteservicenav ul li.icon_link_www{list-style-image:url('/images/neuerBereich/testbeds/icons/icon_link_www.gif');}
+
+td#spalteservicenav ul li.icon_link_fokus{list-style-image:url('/images/neuerBereich/testbeds/icons/icon_link_fokus.gif');}
+td#spalteservicenav ul li.icon_link_fue{list-style-image:url('/images/neuerBereich/testbeds/icons/icon_link_fue.gif');}
+td#spalteservicenav ul li.icon_link_pup{list-style-image:url('/images/neuerBereich/testbeds/icons/icon_link_pup.gif');}
+
+/* + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + */

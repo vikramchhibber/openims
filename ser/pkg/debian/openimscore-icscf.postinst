@@ -1,0 +1,166 @@
+#!/bin/sh -e
+# postinst script for OpenIMSCore - ICSCF
+#
+
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+#################################################################################
+#INITIALISATION & GLOBAL VARS
+#################################################################################
+#DDOMAIN : Default domain name
+DDOMAIN="open-ims\.test"
+#DSDOMAIN : Default domain name with slashes
+DSDOMAIN="open-ims\\\.test"
+#DEFAULTIP : Default IP Address
+DEFAULTIP="127\.0\.0\.1"
+
+#SER_CONFFILES : openimscore configuration files to edit
+cd /etc/openimscore/
+SER_CONFFILES="icscf.cfg icscf.xml"
+SER_SQLFILES="sql_files/icscf.sql"
+
+#Copying default cfg files 
+#Default :
+# log_stderror=no
+# debug=1
+[ -f icscf.cfg.default ] && cp icscf.cfg.default icscf.cfg || cp icscf.cfg icscf.cfg.default
+[ -f icscf.xml.default ] && cp icscf.xml.default icscf.xml || cp icscf.xml icscf.xml.default
+
+#################################################################################
+#COPYING CONFIG FILES AND RUNNABLE SCRIPTS
+#################################################################################
+printf "\n\nCopying configuration file\n..."
+
+#Log Directory
+mkdir -p /var/log/OpenIMSCore
+#Give all permissions to Log Files & Directory
+chmod 777 /var/log/OpenIMSCore -R
+printf "... [Done]\n"
+
+#################################################################################
+#CONFIGURATION OF DOMAIN
+#################################################################################
+printf "\n\nConfiguration of Domain\n"
+
+#Domain name
+printf "Domain Name to use: "
+#Get variable
+db_get openimscore-icscf/domain_to_use
+domainname=$RET
+printf "$domainname\n"
+
+#IP Address
+printf "IP Adress to use: "
+#Get variable
+db_get openimscore-icscf/ip_to_use
+ip_address=$RET
+printf "$ip_address\n"
+
+# input domain is to be slashed for cfg regexes 
+slasheddomain=`echo $domainname | sed 's/\./\\\\\\\\\./g'`
+
+printf "Apply this Domain and IP to all configuration files ...\n"
+printf "Openimscore Configuration files\n"
+for i in $SER_CONFFILES 
+do
+	sed -i -e "s/$DDOMAIN/$domainname/g" $i
+	sed -i -e "s/$DSDOMAIN/$slasheddomain/g" $i
+	sed -i -e "s/$DEFAULTIP/$ip_address/g" $i
+	printf " --> $i done\n" 
+done
+printf "Openimscore SQL files\n"
+for i in $SER_SQLFILES 
+do
+	sed -i -e "s/$DDOMAIN/$domainname/g" $i
+	sed -i -e "s/$DSDOMAIN/$slasheddomain/g" $i
+	sed -i -e "s/$DEFAULTIP/$ip_address/g" $i
+	printf " --> $i done\n" 
+done
+
+#################################################################################
+#CONFIGURATION OF DNS
+#################################################################################
+printf "\n\nConfiguration of Domain Name Server\n"
+#Get variable
+db_get openimscore-icscf/dns_ip
+dns_ip=$RET
+#Is it the first time we edit resolv.conf ?
+printf "Is it the first time we edit resolv.conf ? "
+if [ -f /etc/resolv.conf.imsback ]; then
+	printf "No\n"
+	printf "Reverting the .imsback file\n"
+	mv /etc/resolv.conf.imsback /etc/resolv.conf
+else
+	printf "Yes\n"
+fi
+#Adding dns resolution in /etc/resolv.conf
+[ -f /etc/resolv.conf ] || touch /etc/resolv.conf
+cp /etc/resolv.conf /etc/resolv.conf.imsback
+printf "\nAdding to /etc/resolv.conf \n"
+echo "######################" |  tee -a /etc/resolv.conf
+echo "#Added for OpenIMSCore" |  tee -a /etc/resolv.conf
+echo "domain $domainname" |  tee -a /etc/resolv.conf
+echo "nameserver $dns_ip" |  tee -a /etc/resolv.conf
+echo "######################" |  tee -a /etc/resolv.conf
+
+#################################################################################
+#SQL DATA
+#################################################################################
+printf "\n\nSQL Data\n"
+printf " -->Some data will be inserted in MySQL database."
+#Get variable
+db_get openimscore-icscf/sql_password
+if [ "$RET" != "" ]
+then
+	SQL_PASSWORD="-p$RET"
+else
+	SQL_PASSWORD=""
+fi
+#Get variable
+db_get openimscore-icscf/sql_data
+if [ "$RET" = "yes" ]
+then
+	printf "Starting MySQL...\n"
+	/etc/init.d/mysql start
+	echo "i-cscf database configuration"
+	mysql -uroot $SQL_PASSWORD < sql_files/icscf.sql
+fi
+
+#################################################################################
+#SPECIFIC CONFIGURATION
+#################################################################################
+printf "\n\nSpecific configuration\n"
+
+#printf " --> Use the syslog-ng system ? "
+##Get variable
+#db_get openimscore-icscf/use_syslog
+#printf "$RET\n"
+#if [ "$RET" = "no" ]
+#then
+#	sed -i -e "s;log_stderror=no;log_stderror=yes;" icscf.cfg
+#fi
+
+printf " --> Debug Level ? "
+#Get variable
+db_get openimscore-icscf/debug_level
+printf "$RET\n"
+sed -i -e "s;debug=3;debug=$RET;" icscf.cfg
+
+#################################################################################
+#RUNNING SERVICES
+#################################################################################
+printf "\n\nRunning services\n"
+
+#i-cscf
+printf "Run i-cscf at start and/or now ? ... "
+#Get variable
+db_get openimscore-icscf/icscf_config
+printf "$RET ...\n"
+if echo "$RET" | grep -q "yes"
+then
+	#DEBHELPER#
+fi
+
+printf "\nEnd of configuration script\n"
+db_stop
